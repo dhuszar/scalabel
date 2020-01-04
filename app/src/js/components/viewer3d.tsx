@@ -233,7 +233,6 @@ class Viewer3D extends DrawableViewer<Props> {
           )}
         </IconButton>
       )
-
       return [
         yLockButton,
         xLockButton,
@@ -244,6 +243,7 @@ class Viewer3D extends DrawableViewer<Props> {
         selectionLockButton
       ]
     }
+
     return []
   }
 
@@ -434,8 +434,8 @@ class Viewer3D extends DrawableViewer<Props> {
           break
       }
 
-      const position = (new Vector3D()).fromObject(config.position).toThree()
-      const target = (new Vector3D()).fromObject(config.target).toThree()
+      const position = (new Vector3D()).fromState(config.position).toThree()
+      const target = (new Vector3D()).fromState(config.target).toThree()
 
       const offset = (new THREE.Vector3()).copy(position)
       offset.sub(target)
@@ -578,8 +578,8 @@ class Viewer3D extends DrawableViewer<Props> {
   private commitCamera () {
     const newConfig = {
       ...this._viewerConfig as PointCloudViewerConfigType,
-      position: (new Vector3D()).fromThree(this._camera.position).toObject(),
-      target: (new Vector3D()).fromThree(this._target).toObject()
+      position: (new Vector3D()).fromThree(this._camera.position).toState(),
+      target: (new Vector3D()).fromThree(this._target).toState()
     }
     Session.dispatch(changeViewerConfig(
       this._viewerId, newConfig
